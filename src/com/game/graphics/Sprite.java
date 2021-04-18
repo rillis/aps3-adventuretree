@@ -20,6 +20,10 @@ public class Sprite {
     }
 
     public void render (Graphics g){
+        if(image==null){
+            return;
+        }
+
         int realX = (int) posX - image.getWidth()/2;
         int realY = (int) posY - image.getHeight()/2;
 

@@ -2,6 +2,8 @@ package com.game.graphics;
 
 import com.game.Game;
 import com.game.config.Config;
+import com.game.input.Input;
+import com.game.world.Terrain;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -46,9 +48,9 @@ public class Renderer {
             }
         });
 
-
-
         frame.setVisible(true);
+
+        canvas.addKeyListener(new Input());
 
         startRendering();
     }
@@ -84,7 +86,7 @@ public class Renderer {
                         g.drawString("FPS: "+atualFPS, 10, 10);
                     }
 
-
+                    Terrain.render(g);
 
                     g.dispose();
 
@@ -101,6 +103,8 @@ public class Renderer {
 
     public static BufferedImage loadImage(String path) throws IOException {
         BufferedImage rawImage = ImageIO.read(Renderer.class.getResource(path));
-        return canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(), rawImage.getHeight(), rawImage.getTransparency());
+        BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(), rawImage.getHeight(), rawImage.getTransparency());
+        finalImage.getGraphics().drawImage(rawImage,0,0, rawImage.getWidth(), rawImage.getHeight(), null);
+        return finalImage;
     }
 }

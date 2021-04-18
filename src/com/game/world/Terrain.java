@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Terrain{
     public static ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
-    private static long lastTime = 0;
+    private static long lastTime = System.nanoTime();
 
     public static void update(){
         float deltaTime = (System.nanoTime() - lastTime)/ 1000000000.0f;
