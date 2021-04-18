@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class Input implements KeyListener {
 
-    private static boolean[] currentKeys = new boolean[200];
+    private static boolean[] currentKeys = new boolean[525];
 
     public static boolean getKey(int keyCode){
         return currentKeys[keyCode];

@@ -6,6 +6,7 @@ import com.game.input.Input;
 import com.game.world.Terrain;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -17,7 +18,7 @@ public class Renderer {
     private static Frame frame;
     private static Canvas canvas;
 
-    private static Dimension canvasSize = new Dimension(800,800);
+    private static Dimension canvasSize = null;
     public static Dimension gameSize = new Dimension(100,100);
 
     private static long lastFPSCheck = 0;
@@ -27,6 +28,8 @@ public class Renderer {
     public static void init(){
         frame = new Frame();
         canvas = new Canvas();
+
+        canvasSize = optimizeScreen();
 
         canvas.setPreferredSize(canvasSize);
 
@@ -55,6 +58,11 @@ public class Renderer {
         canvas.addKeyListener(new Input());
 
         startRendering();
+    }
+
+    private static Dimension optimizeScreen() {
+        int sH = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+        return new Dimension(Math.min(sH, 800), Math.min(sH, 800));
     }
 
     private static void startRendering() {
