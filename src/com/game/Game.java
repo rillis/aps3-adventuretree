@@ -1,6 +1,7 @@
 package com.game;
 
 import com.game.graphics.Background;
+import com.game.graphics.Floor;
 import com.game.graphics.Renderer;
 import com.game.world.Terrain;
 
@@ -10,7 +11,8 @@ public class Game {
     public static void main(String[] args) {
         Renderer.init();
 
-        Terrain.sprites.add(new Background(0,0));
+        Terrain.sprites.add(new Background(0,0, false));
+        Terrain.sprites.add(new Floor(0,170, false));
 
     }
 
