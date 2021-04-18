@@ -1,5 +1,7 @@
 package com.gui;
 
+import com.gui.background.Background;
+import com.gui.background.Stars;
 import com.gui.player.Player;
 
 import javax.swing.*;
@@ -8,6 +10,8 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     Dimension displaySize;
     Player player;
+    Background background;
+    Stars stars;
     JPanel contentPane;
     public MainWindow(Dimension displaySize) {
         this.displaySize = displaySize;
@@ -22,6 +26,16 @@ public class MainWindow extends JFrame {
 
         player = new Player(this);
         contentPane.add(player);
+
+
+        background = new Background(this, new Dimension(2000, 500));
+
+        stars = new Stars(background.getBackgroundSize());
+        stars.add(this);
+        stars.startBlinking(this);
+
+        contentPane.add(background);
+
     }
 
     public Dimension getDisplaySize(){
@@ -30,5 +44,17 @@ public class MainWindow extends JFrame {
 
     public Player getPlayer(){
         return player;
+    }
+
+    public JPanel getContentPane(){
+        return contentPane;
+    }
+
+    public Stars getStars(){
+        return stars;
+    }
+
+    public Background getBackgroundLabel(){
+        return background;
     }
 }
