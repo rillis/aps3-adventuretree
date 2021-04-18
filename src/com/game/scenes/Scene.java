@@ -1,10 +1,15 @@
 package com.game.scenes;
 
 import com.game.graphics.*;
+import com.game.world.SlotTree;
 import com.game.world.Terrain;
 
+import java.awt.*;
+
 public class Scene extends Terrain {
-    public Scene(int i, int colLeft, int colRight){
+    public SlotTree[] treeSlots;
+    public Scene(int i, int colLeft, int colRight, SlotTree[] treeSlots){
+        this.treeSlots = treeSlots;
         sprites.add(new Background(0,0,false));
         if (i == 1){
             sprites.add(new Player(50,50,false, colLeft, colRight));

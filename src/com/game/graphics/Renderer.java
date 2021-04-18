@@ -3,10 +3,10 @@ package com.game.graphics;
 import com.game.Game;
 import com.game.config.Config;
 import com.game.input.Input;
+import com.game.input.MouseInput;
 import com.game.world.Terrain;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -56,6 +56,7 @@ public class Renderer {
         frame.requestFocus();
 
         canvas.addKeyListener(new Input());
+        canvas.addMouseListener(new MouseInput());
 
         startRendering();
     }

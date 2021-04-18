@@ -1,5 +1,6 @@
 package com.game.world;
 
+import com.game.config.Config;
 import com.game.graphics.Player;
 import com.game.graphics.Renderer;
 import com.game.graphics.Sprite;
@@ -13,11 +14,19 @@ public class Terrain{
 
 
 
-    public static Terrain sc1 = new Scene(1, -Player.width+1, Renderer.gameSize.width-1);
-    public static Terrain sc2 = new Scene(2, -Player.width+1, Renderer.gameSize.width-1);
-    public static Terrain sc3 = new Scene(3, -Player.width+1, Renderer.gameSize.width-24);
+    public static Scene sc1 = new Scene(1, 1, Renderer.gameSize.width-1,
+            new SlotTree[]{new SlotTree(16,62,22,11),new SlotTree(44,62,22,10)
+                    ,new SlotTree(72,62,22,10)});
 
-    public static Terrain currentTerrain = sc1;
+    public static Scene sc2 = new Scene(2, -Player.width+1, Renderer.gameSize.width-1,
+            new SlotTree[]{new SlotTree(10,62,22,11),new SlotTree(38,62,22,10)
+                    ,new SlotTree(66,62,22,10)});
+
+    public static Scene sc3 = new Scene(3, -Player.width+1, Renderer.gameSize.width-24,
+            new SlotTree[]{new SlotTree(3,62,22,11),new SlotTree(31,62,22,10)
+                    ,new SlotTree(59,62,22,10)});
+
+    public static Scene currentTerrain = sc1;
 
     private static long lastTime = System.nanoTime();
 
@@ -36,6 +45,14 @@ public class Terrain{
         for (Sprite sprite : currentTerrain.sprites){
             sprite.render(g);
         }
+
+        if (Config.DEBUG){
+            for (SlotTree slotTree : currentTerrain.treeSlots){
+                g.setColor(Color.red);
+                g.drawRect(slotTree.x, slotTree.y, slotTree.width, slotTree.height);
+            }
+        }
+
     }
 
 }
