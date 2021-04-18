@@ -9,12 +9,18 @@ public class Sprite {
     public float posY = 0;
     public boolean center = true;
 
+    public float width = 0;
+    public float height = 0;
+    public Rectangle rect = null;
+    public boolean isSolid = false;
+
     public BufferedImage image = null;
 
     public Sprite(float posX, float posY, boolean center){
         this.posX = posX;
         this.posY = posY;
         this.center = center;
+        this.rect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
     }
 
     public void update (float delta){

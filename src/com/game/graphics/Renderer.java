@@ -18,7 +18,7 @@ public class Renderer {
     private static Canvas canvas;
 
     private static Dimension canvasSize = new Dimension(800,800);
-    private static Dimension gameSize = new Dimension(100,100);
+    public static Dimension gameSize = new Dimension(100,100);
 
     private static long lastFPSCheck = 0;
     private static int atualFPS = 0;
@@ -49,6 +49,8 @@ public class Renderer {
         });
 
         frame.setVisible(true);
+        frame.toFront();
+        frame.requestFocus();
 
         canvas.addKeyListener(new Input());
 
@@ -82,11 +84,13 @@ public class Renderer {
                     //RENDER
 
 
-                    //Terrain.update();
+                    Terrain.update();
                     Terrain.render(g);
 
 
                     if(Config.SHOW_FPS){
+                        g.setColor(Color.BLACK);
+                        g.fillRect(1,2, 55, 10);
                         g.setColor(Color.YELLOW);
                         g.setFont(new Font("Consolas", Font.PLAIN, 10));
                         g.drawString("FPS: "+atualFPS, 1, 10);

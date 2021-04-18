@@ -6,19 +6,15 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class Floor extends Sprite{
-    public Floor(float posX, float posY, boolean center) {
+    public Floor(float posX, float posY, boolean center, int i) {
         super(posX, posY, center);
 
         try {
-            image=Renderer.loadImage("/com/game/resources/floor.png");
+            image=Renderer.loadImage("/com/game/resources/floor"+i+".png");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void update(float delta){
-        if(Input.getKey(KeyEvent.VK_RIGHT)){  }
-        if(Input.getKey(KeyEvent.VK_LEFT)){  }
-    }
+
 }
