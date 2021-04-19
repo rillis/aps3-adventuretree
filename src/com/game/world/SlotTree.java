@@ -2,7 +2,8 @@ package com.game.world;
 
 import com.game.config.Config;
 import com.game.graphics.Sprite;
-import com.game.graphics.Tree;
+import com.game.graphics.StaticSprite;
+import com.game.graphics.screens.Terrain;
 
 import java.awt.*;
 
@@ -51,24 +52,18 @@ public class SlotTree {
         this.status = STATUS_GROWING;
         this.tree = tree;
 
-        Tree t = new Tree((float) x-2, (float) y-38, false, tree, "sapling");
+        Sprite t = new StaticSprite(x-2, y-38, false, "tree"+tree+"sapling");
         Terrain terrain = Terrain.currentTerrain;
-        new Thread(){
-            @Override
-            public void run() {
-                try{
-                    terrain.sprites.add(t);
-                    Thread.sleep(Config.TREE_GROW_TIME);
-                    Sprite t2 = new Tree((float) x-2, (float) y-38, false, tree, "");
-                    terrain.sprites.add(t2);
-                    terrain.sprites.remove(t);
-                    treeSprite = t2;
-                    status = STATUS_ADULT;
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+        new Thread(() -> {
+            try{
+                terrain.sprites.add(t);
+                Thread.sleep(Config.TREE_GROW_TIME);
+                treeSprite = new StaticSprite(x-2, y-38, false, "tree"+tree);
+                terrain.sprites.add(treeSprite);
+                terrain.sprites.remove(t);
+                status = STATUS_ADULT;
+            }catch (Exception e){ e.printStackTrace(); }
+        }).start();
 
     }
 }

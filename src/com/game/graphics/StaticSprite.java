@@ -1,15 +1,13 @@
 package com.game.graphics;
 
-import java.io.IOException;
+import com.game.graphics.Sprite;
 
 public class StaticSprite extends Sprite {
-    public StaticSprite(float posX, float posY, boolean center, String name) {
-        super(posX, posY, center);
+    public StaticSprite(int x, int y, boolean center, String png) {
+        super(x,y,center);
 
-        try {
-            image=Renderer.loadImage("/com/game/resources/"+name+".png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Animation animation = new Animation();
+        animation.images.add(Renderer.loadImage("/com/game/resources/"+png+".png"));
+        animations = new Animation[]{  animation };
     }
 }
