@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 public class Player extends Sprite {
 
     public static int WALL_LEFT = 0;
+    public static long coins = 0;
+
     public static int MOVING_LEFT = 0;
     public static int WALL_RIGHT = 1;
     public static int MOVING_RIGHT = 1;

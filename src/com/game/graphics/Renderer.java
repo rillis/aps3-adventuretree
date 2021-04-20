@@ -3,10 +3,14 @@ package com.game.graphics;
 import com.game.Game;
 import com.game.config.Config;
 import com.game.graphics.mob.Enemy;
+import com.game.graphics.mob.Player;
+import com.game.graphics.screens.Shop;
 import com.game.input.Input;
 import com.game.input.MouseInput;
 import com.game.state.GameState;
 import com.game.graphics.screens.Terrain;
+import com.game.world.SlotTree;
+import com.game.world.Tree;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Renderer {
     public static Thread threadRender;
@@ -64,6 +69,7 @@ public class Renderer {
         canvas.addKeyListener(new Input());
         canvas.addMouseListener(new MouseInput());
 
+        Tree.init();
         startRendering();
     }
 
@@ -98,15 +104,22 @@ public class Renderer {
                 if(GameState.state == GameState.IN_GAME) {
                     Terrain.update();
                     Terrain.render(g);
-                }else{
+
+                    g.setColor(Color.BLACK);
+                    g.setFont(getFont("TeenyTinyPixls"));
+                    g.drawString(formatCoins(Player.coins),43,83);
+                }else if(GameState.state == GameState.MENU){
                     new StaticSprite(0,0,false,"menu").render(g);
+                }else{
+                    Shop.render(g);
+                    Rectangle r = Shop.slots[Tree.selectedTree-1];
+                    g.setColor(new Color(60, 60, 60));
+                    g.drawRect(r.x,r.y,r.width-1,r.height-1);
                 }
 
                 if(Config.SHOW_FPS){
                     g.setColor(Color.BLACK);
-                    g.fillRect(1,2, 55, 10);
-                    g.setColor(Color.YELLOW);
-                    g.setFont(new Font("Consolas", Font.PLAIN, 10));
+                    g.setFont(getFont("TeenyTinyPixls"));
                     g.drawString("FPS: "+actualFPS, 1, 10);
                 }
 
@@ -141,5 +154,16 @@ public class Renderer {
         BufferedImage finalImage = canvas.getGraphicsConfiguration().createCompatibleImage(rawImage.getWidth(), rawImage.getHeight(), rawImage.getTransparency());
         finalImage.getGraphics().drawImage(rawImage,0,0, rawImage.getWidth(), rawImage.getHeight(), null);
         return finalImage;
+    }
+
+    static Font getFont(String path){
+        try { return Font.createFont(Font.TRUETYPE_FONT, Renderer.class.getResourceAsStream("/com/game/resources/"+path+".ttf")).deriveFont(5f);} catch (FontFormatException | IOException e) {e.printStackTrace(); }
+        return null;
+    }
+
+    public static String formatCoins(long coins){
+        if (coins<1000){return ""+coins;}
+        if (coins<1000000){return ""+Math.floor(((double)coins/1000.0)*10)/10+"k";}
+        return ""+Math.floor(((double)coins/1000000.0)*10)/10+"M";
     }
 }

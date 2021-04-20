@@ -34,9 +34,9 @@ public class Terrain{
         if (i == 1){sprites.add(new Player(50,50,false, colLeft, colRight));}
         else{sprites.add(new Player(1,50,false, colLeft, colRight));}
         sprites.add(enemy);
-        sprites.add(new StaticSprite(10,80,false, "keys"));
-        sprites.add(new StaticSprite(75,78,false, "chest"));
-        sprites.add(new StaticSprite(75,87,false, "shop"));
+        sprites.add(new StaticSprite(32,76,false, "coin"));
+        sprites.add(new StaticSprite(20,85,false, "keys"));
+        sprites.add(new StaticSprite(20,76,false, "chest", 8, 8));
     }
 
     public static void update(){

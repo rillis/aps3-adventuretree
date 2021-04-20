@@ -4,12 +4,13 @@ import com.game.config.Config;
 import com.game.graphics.Sprite;
 import com.game.graphics.StaticSprite;
 import com.game.graphics.mob.Enemy;
+import com.game.graphics.mob.Player;
 import com.game.graphics.screens.Terrain;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class SlotTree {
-
     public static final int STATUS_IDLE = 0;
     public static final int STATUS_GROWING = 1;
     public static final int STATUS_ADULT = 2;
@@ -46,6 +47,8 @@ public class SlotTree {
 
     public void plant(int tree){
         if (status != STATUS_IDLE){ return; }
+        if (Player.coins<Tree.trees.get(tree).getCost()){return;}
+
         this.status = STATUS_GROWING;
         this.tree = tree;
 
@@ -53,11 +56,13 @@ public class SlotTree {
         Terrain terrain = Terrain.currentTerrain;
         new Thread(() -> {
             try{
+                Player.coins-=Tree.trees.get(tree).getCost();
                 terrain.addSprite(t);
-                Thread.sleep(Config.TREE_GROW_TIME);
+                Thread.sleep(Config.TREE_GROW_TIME*1000);
                 treeSprite = new StaticSprite(x-2, y-38, false, "tree"+tree);
                 terrain.addSprite(treeSprite);
                 terrain.removeSprite(t);
+                Player.coins+=Tree.trees.get(tree).getCoins();
                 status = STATUS_ADULT;
             }catch (Exception e){ e.printStackTrace(); }
         }).start();
@@ -96,4 +101,6 @@ public class SlotTree {
         t.removeSprite(treeSprite);
         this.status = STATUS_IDLE;
     }
+
+
 }

@@ -8,17 +8,23 @@ public class Sprite {
     public float posX, posY;
     public boolean center;
 
-    public float width, height = 0;
     public Rectangle rect;
 
     public Animation[] animations;
     public int currentAnimation = 0;
 
+
     public Sprite(float posX, float posY, boolean center){
         this.posX = posX;
         this.posY = posY;
         this.center = center;
-        this.rect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
+    }
+
+    public Sprite(float posX, float posY, boolean center, int width, int height) {
+        this.posX = posX;
+        this.posY = posY;
+        this.center = center;
+        this.rect = new Rectangle((int) posX, (int) posY, width, height);
     }
 
     public void update (float delta){}
