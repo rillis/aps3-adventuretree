@@ -3,7 +3,8 @@ package com.game.config;
 public class Config {
     public static long TREE_GROW_TIME = 5000;
     public static boolean SHOW_FPS, DEBUG = false;
-    public static int targetFPS = 60;
+    public static int targetFPS = 150;
+    public static int EnemyCooldown = 3;
 
     public static void init(String[] args) {
         for (String arg : args){

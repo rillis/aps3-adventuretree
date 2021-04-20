@@ -1,4 +1,4 @@
-package com.game.graphics.sprite;
+package com.game.graphics.mob;
 
 import com.game.graphics.Animation;
 import com.game.graphics.Renderer;

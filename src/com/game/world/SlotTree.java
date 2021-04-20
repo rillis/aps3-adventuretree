@@ -3,26 +3,23 @@ package com.game.world;
 import com.game.config.Config;
 import com.game.graphics.Sprite;
 import com.game.graphics.StaticSprite;
+import com.game.graphics.mob.Enemy;
 import com.game.graphics.screens.Terrain;
 
 import java.awt.*;
 
 public class SlotTree {
 
-    private static final int STATUS_IDLE = 0;
-    private static final int STATUS_GROWING = 1;
-    private static final int STATUS_ADULT = 2;
-    private static final int STATUS_BREAKING = 3;
+    public static final int STATUS_IDLE = 0;
+    public static final int STATUS_GROWING = 1;
+    public static final int STATUS_ADULT = 2;
+    public static final int STATUS_BREAKING = 3;
 
-    public int x;
-    public int y;
-    public int height;
-    public int width;
+    public int x,y,height,width;
 
     private final Rectangle rectangle;
 
-    private int status;
-    private int tree;
+    private int status,tree;
     private Sprite treeSprite;
 
     public SlotTree(int x, int y, int width, int height) {
@@ -56,14 +53,47 @@ public class SlotTree {
         Terrain terrain = Terrain.currentTerrain;
         new Thread(() -> {
             try{
-                terrain.sprites.add(t);
+                terrain.addSprite(t);
                 Thread.sleep(Config.TREE_GROW_TIME);
                 treeSprite = new StaticSprite(x-2, y-38, false, "tree"+tree);
-                terrain.sprites.add(treeSprite);
-                terrain.sprites.remove(t);
+                terrain.addSprite(treeSprite);
+                terrain.removeSprite(t);
                 status = STATUS_ADULT;
             }catch (Exception e){ e.printStackTrace(); }
         }).start();
 
+    }
+
+    public void remove(Terrain t){
+        int speed = 20;
+
+        if (t != Terrain.currentTerrain){removeTree(t);return;}
+        new Thread(() -> {
+            try {
+                t.getEnemy().posX=0;
+                Enemy.status = Enemy.GOING;
+                for (int i = -10; i < x; i++) {
+                    t.getEnemy().posX=i;
+                    Thread.sleep(1000/speed);
+                }
+                Enemy.status = Enemy.BREAKING;
+                Thread.sleep(1000);
+                removeTree(t);
+                Enemy.status = Enemy.RETURNING;
+                for (int i = x-1; i > -10; i--) {
+                    t.getEnemy().posX=i;
+                    Thread.sleep(1000/speed);
+                }
+                Enemy.status = Enemy.IDLE;
+
+            } catch (InterruptedException e) { e.printStackTrace(); }
+        }).start();
+    }
+
+    private void removeTree(Terrain t){
+        this.status = STATUS_BREAKING;
+        this.tree=0;
+        t.removeSprite(treeSprite);
+        this.status = STATUS_IDLE;
     }
 }

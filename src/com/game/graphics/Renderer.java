@@ -2,6 +2,7 @@ package com.game.graphics;
 
 import com.game.Game;
 import com.game.config.Config;
+import com.game.graphics.mob.Enemy;
 import com.game.input.Input;
 import com.game.input.MouseInput;
 import com.game.state.GameState;
@@ -23,9 +24,10 @@ public class Renderer {
 
     private static Dimension canvasSize;
     public static Dimension gameSize = new Dimension(100,100);
+    public static float screenFactor;
 
     private static long lastFPSCheck = 0;
-    private static int actualFPS, totalFrames = 0;
+    private static int actualFPS, totalFrames;
 
     private static final int targetTime = 1000000000 / Config.targetFPS;
 
@@ -34,6 +36,7 @@ public class Renderer {
 
         canvas = new Canvas();
         canvasSize = optimizeScreen();
+        screenFactor = (float) canvasSize.height / (float) gameSize.height;
         canvas.setPreferredSize(canvasSize);
 
         frame.add(canvas);
